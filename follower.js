@@ -18,9 +18,18 @@ if (argv.platform === 'android') {
   const page = await browser.newPage();
   await page.setRequestInterception(true);
   page.on('request', interceptedRequest => {
-    console.log(interceptedRequest.url());
-
-    interceptedRequest.continue();
+    if (
+        interceptedRequest.url().endsWith('.png') ||
+        interceptedRequest.url().endsWith('.jpg') ||
+        interceptedRequest.url().endsWith('.js') ||
+        interceptedRequest.url().endsWith('.css')
+      )
+    {
+      interceptedRequest.abort();
+    } else {
+      console.log(interceptedRequest.url());
+      interceptedRequest.continue();
+    }
   });
   await page.setUserAgent(platform);
   await page.goto(argv.url);
