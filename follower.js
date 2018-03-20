@@ -34,7 +34,5 @@ if (argv.platform === 'android') {
   await page.setUserAgent(platform);
   await page.goto(argv.url);
 
-  console.log(page.url());
-
   await browser.close();
 })();
